@@ -14,7 +14,12 @@
       "name": "internal-user-credential-inventory-ms",
       "username_key": "username",
       "password_key": "password"
-    }
+    },
+    "secret_conf_get_order": {
+      "name": "internal-user-credential-order-ms",
+      "username_key": "username",
+      "password_key": "password"
+    },
   },
   "token_config": {
             "url": "https://my-security-service:8443/security/v1/auth/tokens",
@@ -48,12 +53,12 @@
         "Accept": "application/json",
         "Content-Type":"application/json"
       },
-      "secret_config": "secret_conf_get_po",
+      "secret_config": "secret_conf_get_order",
       "pre_hooks": ["pre_get_inventory"],
       "post_hooks": ["post_get_inventory"]
     },
     "update_inventory_status": {
-      "id": "update_pi_status_by_id",
+      "id": "update_inventory_status_by_id",
       "name": "Update Inventory Status",
       "method": "POST",
       "url": "https://my-inventory-service:8443/InventoryManagement/v1/inventory/updateInventory",
