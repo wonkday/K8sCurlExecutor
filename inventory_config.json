@@ -1,0 +1,70 @@
+{
+  "k8s_config": {
+    "microservice_name": "my-inventory-app",
+    "namespace": "prod3-runtime",
+    "label_selector": "app=inventory-ms",
+    "container_blacklist": [
+      "istio"
+    ],
+    "kubeconfig_path": "/home/wonkday/.kube/config",
+    "context": null
+  },
+  "secret_configs": {
+    "secret_conf_update_inv": {
+      "name": "internal-user-credential-inventory-ms",
+      "username_key": "username",
+      "password_key": "password"
+    }
+  },
+  "token_config": {
+            "url": "https://my-security-service:8443/security/v1/auth/tokens",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": "Basic bXlVc2VyOm15VXNlcgo="
+            },
+            "data": {
+                "auth": {
+                    "token-type": "JWT",
+                    "token-expiration": "",
+                    "on-behalf-of": {
+                        "type": "USER_PASSWORD",
+                        "user-credentials": {
+                            
+                        }
+                    }
+                }
+            },
+            "token_field": "subjectToken",
+            "expiration_field": "subjectTokenExpiration"
+        },
+  "commands": {
+    "get_inv_by_id": {
+      "id": "get_inventory_by_id",
+      "name": "Get Inventory by ID",
+      "method": "GET",
+      "url": "https://my-inventory-service:8443/InventoryManagement/v1/inventory/{inv_id}",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type":"application/json"
+      },
+      "secret_config": "secret_conf_get_po",
+      "pre_hooks": ["pre_get_inventory"],
+      "post_hooks": ["post_get_inventory"]
+    },
+    "update_inventory_status": {
+      "id": "update_pi_status_by_id",
+      "name": "Update Inventory Status",
+      "method": "POST",
+      "url": "https://my-inventory-service:8443/InventoryManagement/v1/inventory/updateInventory",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type":"application/json",
+        "Initiator-Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IndvbmtkYXkiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.52lCgqGTWjw19r9MQlJNSCVdVpVfaGLTQEF6mBDUPsY"
+      },
+      "secret_config": "secret_conf_update_inv",
+      "pre_hooks": ["pre_update_inventory_status"],
+      "post_hooks": ["post_update_inventory_status"]
+    }
+  }
+}
